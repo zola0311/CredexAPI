@@ -8,6 +8,7 @@
         public int EmployeeId { get; set; }
         public int RoleId { get; set; }
         public virtual Roles? Roles { get; set; }
+        public virtual Employees? Employees { get; set; }
 
     }
 }

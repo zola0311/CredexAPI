@@ -21,5 +21,6 @@
         public virtual Jobs? Jobs { get; set; }
         public virtual ValueStreams? ValueStreams { get; set; }
         public virtual Genders? Genders { get; set; }
+        public virtual Users? Users { get; set; }
     }
 }
