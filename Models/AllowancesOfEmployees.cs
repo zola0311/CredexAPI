@@ -6,7 +6,7 @@
         public int EmployeeId { get; set; }
         public string? AllowanceTypeId { get; set; }
         public int Value { get; set; }
-        public virtual ICollection<Employees>? Employees { get; set; }
-        public virtual AllowanceTypes AllowanceTypes { get; set; }
+        public virtual Employees? Employees { get; set; }
+        public virtual AllowanceTypes? AllowanceTypes { get; set; }
     }
 }
