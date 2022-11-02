@@ -80,6 +80,10 @@ namespace CredexAPI.Models
                 .HasMany(x => x.Employees)
                 .WithOne(x => x.ValueStreams)
                 .HasForeignKey(x => x.ValueStreamId);
+            modelBuilder.Entity<ValueStreams>()
+                .HasMany(x => x.Jobs)
+                .WithOne(x => x.ValueStreams)
+                .HasForeignKey(x => x.ValueStreamId);
         }
 
 
