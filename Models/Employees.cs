@@ -8,7 +8,6 @@
         public string? PhoneNumber { get; set; }
         public string? IdentityCardNumber { get; set; }
         public int GenderId { get; set; }
-        public int ValueStreamId { get; set; }
         public string? NameOfMother { get; set; }
         public int PostalCode { get; set; }
         public string? City { get; set; }
@@ -19,8 +18,6 @@
         public virtual Statuses? Statuses { get; set; }
         public virtual ICollection<AllowancesOfEmployees>? AllowancesOfEmployees { get; set; }
         public virtual Jobs? Jobs { get; set; }
-        public virtual ValueStreams? ValueStreams { get; set; }
         public virtual Genders? Genders { get; set; }
-        public virtual Users? Users { get; set; }
     }
 }

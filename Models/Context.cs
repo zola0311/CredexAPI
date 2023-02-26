@@ -12,7 +12,6 @@ namespace CredexAPI.Models
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Statuses> Statuses { get; set; }
         public DbSet<Users> Users { get; set; }
-        public DbSet<ValueStreams> ValueStreams { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -69,21 +68,6 @@ namespace CredexAPI.Models
             //Users tábla
             modelBuilder.Entity<Users>()
                 .HasKey(x => x.Id);
-            modelBuilder.Entity<Users>()
-                .HasOne(x => x.Employees)
-                .WithOne(x => x.Users)
-                .HasForeignKey<Users>(x => x.EmployeeId);
-            //ValueStreams tábla
-            modelBuilder.Entity<ValueStreams>()
-                .HasKey(x => x.Id);
-            modelBuilder.Entity<ValueStreams>()
-                .HasMany(x => x.Employees)
-                .WithOne(x => x.ValueStreams)
-                .HasForeignKey(x => x.ValueStreamId);
-            modelBuilder.Entity<ValueStreams>()
-                .HasMany(x => x.Jobs)
-                .WithOne(x => x.ValueStreams)
-                .HasForeignKey(x => x.ValueStreamId);
         }
 
 

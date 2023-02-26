@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CredexAPI.Models;
+using Microsoft.AspNetCore.Razor.Language.Extensions;
 
 namespace CredexAPI.Controllers
 {
@@ -24,7 +25,7 @@ namespace CredexAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employees>>> GetEmployees()
         {
-            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.ValueStreams).Include(x => x.Statuses).ToListAsync();
+            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).ToListAsync();
         }
 
         // GET: api/Employees/5
