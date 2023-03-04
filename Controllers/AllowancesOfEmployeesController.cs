@@ -20,6 +20,12 @@ namespace CredexAPI.Controllers
             _context = context;
         }
 
+        [HttpGet("getAllowancesOfEmployee/{employeeId}")]
+        public async Task<ActionResult<IEnumerable<AllowancesOfEmployees>>> GetAllowancesOfEmployee(int employeeId)
+        {
+            return await _context.AllowancesOfEmployees.Where(x => x.EmployeeId == employeeId).Include(x => x.AllowanceTypes).ToListAsync();
+        }
+
         // GET: api/AllowancesOfEmployees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AllowancesOfEmployees>>> GetAllowancesOfEmployees()
