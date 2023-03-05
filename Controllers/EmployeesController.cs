@@ -45,18 +45,31 @@ namespace CredexAPI.Controllers
         // PUT: api/Employees/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEmployees(int id, Employees employees)
+        public async Task<IActionResult> PutEmployees(int id, EmployeeAndAllowancesOfEmployees employeeAndAllowancesOfEmployees)
         {
-            if (id != employees.EmployeeId)
+            if (id != employeeAndAllowancesOfEmployees.Employee.EmployeeId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(employees).State = EntityState.Modified;
-
             try
             {
+                _context.Employees.Update(employeeAndAllowancesOfEmployees.Employee);
                 await _context.SaveChangesAsync();
+
+                var oldAllowancesOfEmployees = await _context.AllowancesOfEmployees.Where(x => x.EmployeeId == employeeAndAllowancesOfEmployees.Employee.EmployeeId).ToListAsync();
+
+                foreach(var oldAllowance in oldAllowancesOfEmployees)
+                {
+                    _context.AllowancesOfEmployees.Remove(oldAllowance);
+                    await _context.SaveChangesAsync();
+                }
+
+                foreach(var allowance in employeeAndAllowancesOfEmployees.AllowancesOfEmployees)
+                {
+                    _context.AllowancesOfEmployees.Add(allowance);
+                    await _context.SaveChangesAsync();
+                }
             }
             catch (DbUpdateConcurrencyException)
             {
