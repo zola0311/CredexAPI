@@ -14,6 +14,7 @@
         public string? Address { get; set; }
         public int JobId { get; set; }
         public int StatusId { get; set; }
+        public bool IsDeleted { get; set; }
 
         public virtual Statuses? Statuses { get; set; }
         public virtual ICollection<AllowancesOfEmployees>? AllowancesOfEmployees { get; set; }
