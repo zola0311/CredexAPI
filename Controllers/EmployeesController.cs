@@ -21,11 +21,17 @@ namespace CredexAPI.Controllers
             _context = context;
         }
 
+        [HttpGet("getDeletedEmployees")]
+        public async Task<ActionResult<IEnumerable<Employees>>> GetDeletedEmplyoees()
+        {
+            return await _context.Employees.Where(x => x.IsDeleted == true).Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).Include(x => x.AllowancesOfEmployees).ThenInclude(x => x.AllowanceTypes).ToListAsync();
+        }
+
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employees>>> GetEmployees()
         {
-            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).ToListAsync();
+            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).Where(x => x.IsDeleted == false).ToListAsync();
         }
 
         // GET: api/Employees/5
@@ -59,13 +65,13 @@ namespace CredexAPI.Controllers
 
                 var oldAllowancesOfEmployees = await _context.AllowancesOfEmployees.Where(x => x.EmployeeId == employeeAndAllowancesOfEmployees.Employee.EmployeeId).ToListAsync();
 
-                foreach(var oldAllowance in oldAllowancesOfEmployees)
+                foreach (var oldAllowance in oldAllowancesOfEmployees)
                 {
                     _context.AllowancesOfEmployees.Remove(oldAllowance);
                     await _context.SaveChangesAsync();
                 }
 
-                foreach(var allowance in employeeAndAllowancesOfEmployees.AllowancesOfEmployees)
+                foreach (var allowance in employeeAndAllowancesOfEmployees.AllowancesOfEmployees)
                 {
                     _context.AllowancesOfEmployees.Add(allowance);
                     await _context.SaveChangesAsync();
@@ -81,6 +87,56 @@ namespace CredexAPI.Controllers
                 {
                     throw;
                 }
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("restoreEmployee/{employeeId}")]
+        public async Task<IActionResult> RestoreEmployee(int employeeId, Employees employees)
+        {
+            if(employeeId != employees.EmployeeId)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+
+                if(employees != null)
+                {
+                    _context.Employees.Update(employees);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [HttpPut("deleteEmployee/{employeeId}")]
+        public async Task<IActionResult> DeleteEmployee(int employeeId, Employees employees)
+        {
+            if (employeeId != employees.EmployeeId)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+
+                if (employees != null)
+                {
+                    _context.Employees.Update(employees);
+                    await _context.SaveChangesAsync();
+                }
+            }
+            catch (NullReferenceException)
+            {
+                return NotFound();
             }
 
             return NoContent();
