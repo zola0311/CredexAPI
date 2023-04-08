@@ -38,7 +38,7 @@ namespace CredexAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Employees>> GetEmployees(int id)
         {
-            var employees = await _context.Employees.FindAsync(id);
+            var employees = await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).Include(x => x.AllowancesOfEmployees).ThenInclude(x => x.AllowanceTypes).Where(x => x.EmployeeId == id).FirstOrDefaultAsync();
 
             if (employees == null)
             {
