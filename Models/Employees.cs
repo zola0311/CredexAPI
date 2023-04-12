@@ -20,5 +20,6 @@
         public virtual ICollection<AllowancesOfEmployees>? AllowancesOfEmployees { get; set; }
         public virtual Jobs? Jobs { get; set; }
         public virtual Genders? Genders { get; set; }
+        public virtual ICollection<AbsencesOfEmployees>? AbsencesOfEmployees { get; set; }
     }
 }

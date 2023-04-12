@@ -12,6 +12,8 @@ namespace CredexAPI.Models
         public DbSet<Roles> Roles { get; set; }
         public DbSet<Statuses> Statuses { get; set; }
         public DbSet<Users> Users { get; set; }
+        public DbSet<AbsencesOfEmployees> AbsencesOfEmployees { get; set; }
+        public DbSet<AbsenceTypes> AbsenceTypes { get; set; }
 
         public Context(DbContextOptions<Context> options) : base(options)
         {
@@ -35,6 +37,10 @@ namespace CredexAPI.Models
                 .HasKey(x => x.EmployeeId);
             modelBuilder.Entity<Employees>()
                 .HasMany(x => x.AllowancesOfEmployees)
+                .WithOne(x => x.Employees)
+                .HasForeignKey(x => x.EmployeeId);
+            modelBuilder.Entity<Employees>()
+                .HasMany(x => x.AbsencesOfEmployees)
                 .WithOne(x => x.Employees)
                 .HasForeignKey(x => x.EmployeeId);
             //Genders tábla
@@ -68,6 +74,16 @@ namespace CredexAPI.Models
             //Users tábla
             modelBuilder.Entity<Users>()
                 .HasKey(x => x.Id);
+            //AbsencesOfEmployees tábla
+            modelBuilder.Entity<AbsencesOfEmployees>()
+                .HasKey(x => x.Id);
+            //AbsencesTypes tábla
+            modelBuilder.Entity<AbsenceTypes>()
+                .HasKey(x => x.Id);
+            modelBuilder.Entity<AbsenceTypes>()
+                .HasMany(x => x.AbsencesOfEmployees)
+                .WithOne(x => x.AbsenceTypes)
+                .HasForeignKey(x => x.AbsenceTypeId);
         }
 
 
