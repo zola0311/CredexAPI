@@ -56,12 +56,16 @@ namespace CredexAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AbsencesOfEmployees>> PostAbsencesOfEmployees(AbsencesOfEmployees absencesOfEmployees)
+        public async Task<ActionResult<AbsencesOfEmployees>> PostAbsencesOfEmployees(AbsencesOfEmployeesViewModel absencesOfEmployees)
         {
-            _context.AbsencesOfEmployees.Add(absencesOfEmployees);
+            AbsencesOfEmployees absence = new AbsencesOfEmployees();
+            absence.AbsenceTypeId = absencesOfEmployees.AbsenceTypeId;
+            absence.Date = DateTime.Parse(absencesOfEmployees.Date);
+            absence.EmployeeId = absencesOfEmployees.EmployeeId;
+            _context.AbsencesOfEmployees.Add(absence);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAbsencesOfEmployees", new { id = absencesOfEmployees.Id }, absencesOfEmployees);
+            return CreatedAtAction("GetAbsenceOfEmployees", new { id = absence.Id }, absence);
         }
 
         [HttpDelete("{id}")]
