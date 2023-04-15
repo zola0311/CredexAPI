@@ -17,19 +17,19 @@ namespace CredexAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AbsenceTypes>>> GetAllAbsencesOfEmployees()
+        public async Task<ActionResult<IEnumerable<AbsenceTypes>>> GetAllAbsencesTypes()
         {
             return await _context.AbsenceTypes.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<AbsenceTypes>> GetAbsenceOfEmployees(int id)
+        public async Task<ActionResult<AbsenceTypes>> GetAbsenceType(int id)
         {
             return await _context.AbsenceTypes.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAbsenceOfEmployees(int id, AbsenceTypes absenceTypes)
+        public async Task<IActionResult> PutAbsenceType(int id, AbsenceTypes absenceTypes)
         {
             if (id != absenceTypes.Id)
             {
@@ -48,16 +48,16 @@ namespace CredexAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AbsenceTypes>> PostAbsencesOfEmployees(AbsenceTypes absenceTypes)
+        public async Task<ActionResult<AbsenceTypes>> PostAbsenceType(AbsenceTypes absenceTypes)
         {
             _context.AbsenceTypes.Add(absenceTypes);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetAbsencesOfEmployees", new { id = absenceTypes.Id }, absenceTypes);
+            return CreatedAtAction("GetAbsenceType", new { id = absenceTypes.Id }, absenceTypes);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAbsencesOfEmployees(int id)
+        public async Task<IActionResult> DeleteAbsenceType(int id)
         {
             var absenceTypes = await _context.AbsenceTypes.FindAsync(id);
 

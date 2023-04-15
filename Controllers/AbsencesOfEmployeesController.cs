@@ -37,7 +37,7 @@ namespace CredexAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAbsenceOfEmployees(int id, AbsencesOfEmployees absencesOfEmployees)
+        public async Task<IActionResult> PutAbsenceOfEmployees(int id, AbsencesOfEmployeesViewModel absencesOfEmployees)
         {
             if(id != absencesOfEmployees.Id)
             {
@@ -48,8 +48,16 @@ namespace CredexAPI.Controllers
             {
                 return NotFound();
             }
+            AbsencesOfEmployees absence = new AbsencesOfEmployees();
+            absence.Id = absencesOfEmployees.Id;
+            absence.AbsenceTypeId = absencesOfEmployees.AbsenceTypeId;
+            if (DateTime.TryParse(absencesOfEmployees.Date, out DateTime testDate))
+            {
+                absence.Date = testDate;
+            }
 
-            _context.AbsencesOfEmployees.Update(absencesOfEmployees);
+            absence.EmployeeId = absencesOfEmployees.EmployeeId;
+            _context.AbsencesOfEmployees.Update(absence);
             await _context.SaveChangesAsync();
 
             return Ok();
@@ -60,7 +68,11 @@ namespace CredexAPI.Controllers
         {
             AbsencesOfEmployees absence = new AbsencesOfEmployees();
             absence.AbsenceTypeId = absencesOfEmployees.AbsenceTypeId;
-            absence.Date = DateTime.Parse(absencesOfEmployees.Date);
+            if(DateTime.TryParse(absencesOfEmployees.Date, out DateTime testDate))
+            {
+                absence.Date = testDate;
+            }
+            
             absence.EmployeeId = absencesOfEmployees.EmployeeId;
             _context.AbsencesOfEmployees.Add(absence);
             await _context.SaveChangesAsync();
