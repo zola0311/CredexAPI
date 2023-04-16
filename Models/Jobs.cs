@@ -4,7 +4,6 @@
     {
         public int Id { get; set; }
         public string? Name { get; set; }
-        public string? JobKey { get; set; }
         public virtual ICollection<Employees>? Employees { get; set; }
         
 
