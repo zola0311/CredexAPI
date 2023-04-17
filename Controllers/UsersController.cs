@@ -24,14 +24,14 @@ namespace CredexAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Users>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(x => x.Roles).ToListAsync();
         }
 
         // GET: api/Users/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Users>> GetUsers(int id)
         {
-            var users = await _context.Users.FindAsync(id);
+            var users = await _context.Users.Include(x => x.Roles).Where(x => x.Id == id).FirstOrDefaultAsync();
 
             if (users == null)
             {
