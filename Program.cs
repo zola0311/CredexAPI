@@ -2,7 +2,7 @@ using CredexAPI.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-string allowSpecificOrigins = "_allowSpecificOrigins";
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +21,7 @@ builder.Services.AddSwaggerGen();
 var connectionString = builder.Configuration.GetConnectionString("CredexConnection");
 builder.Services.AddDbContext<Context>(x => x.UseSqlServer(connectionString));
 
+string allowSpecificOrigins = "_allowSpecificOrigins";
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(name: allowSpecificOrigins,

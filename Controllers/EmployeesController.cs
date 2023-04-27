@@ -24,14 +24,16 @@ namespace CredexAPI.Controllers
         [HttpGet("getDeletedEmployees")]
         public async Task<ActionResult<IEnumerable<Employees>>> GetDeletedEmplyoees()
         {
-            return await _context.Employees.Where(x => x.IsDeleted == true).Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).Include(x => x.AllowancesOfEmployees).ThenInclude(x => x.AllowanceTypes).ToListAsync();
+            return await _context.Employees.Where(x => x.IsDeleted == true).Include(x => x.Genders).Include(x => x.Jobs)
+                .Include(x => x.Statuses).Include(x => x.AllowancesOfEmployees).ThenInclude(x => x.AllowanceTypes).ToListAsync();
         }
 
         // GET: api/Employees
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Employees>>> GetEmployees()
         {
-            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs).Include(x => x.Statuses).Where(x => x.IsDeleted == false).ToListAsync();
+            return await _context.Employees.Include(x => x.Genders).Include(x => x.Jobs)
+                .Include(x => x.Statuses).Where(x => x.IsDeleted == false).ToListAsync();
         }
 
         // GET: api/Employees/5
